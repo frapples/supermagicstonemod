@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
@@ -86,15 +87,18 @@ public class SuperStone extends Item {
             return false;
         } else {
             if (!stack.hasTagCompound()) {
-                playerIn.addChatMessage(new ChatComponentText("Not bind"));
+                // playerIn.addChatMessage(new ChatComponentText("Not bind"));
+                playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.not_binding"));
                 return false;
             }
 
             BindingPos pos = new BindingPos(stack.getTagCompound());
-            playerIn.addChatMessage(new ChatComponentText("Bind to " + pos.toString()));
+            playerIn.addChatMessage(new ChatComponentTranslation(
+                    "info_in_chat.display_binded", pos.toString()));
 
             if (pos.getBlockState().getBlock() != SuperFireplace.self()) {
-                playerIn.addChatMessage(new ChatComponentText("Things drop!"));
+                playerIn.addChatMessage(new ChatComponentTranslation(
+                        "info_in_chat.super_fireplace_not_exists"));
                 return false;
             }
 
@@ -103,7 +107,8 @@ public class SuperStone extends Item {
                     playerIn.setPositionAndUpdate(pos.x, pos.y + 1, pos.z);
                     return true;
                 } else {
-                    playerIn.addChatMessage(new ChatComponentText("You are not in same world"));
+                    playerIn.addChatMessage(new ChatComponentTranslation(
+                            "info_in_chat.not_same_world"));
                     return false;
                 }
             } catch (Utils.NotFoundException e) {

@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
@@ -50,9 +51,9 @@ public class SuperFireplace extends Block{
                         worldIn, pos.getX(), pos.getY(), pos.getZ());
                 inventory.mainInventory[inventory.currentItem] = stack;
 
-                playerIn.addChatMessage(new ChatComponentText(
-                        "Binded to " + (new SuperStone.BindingPos(stack.getTagCompound())).toString())
-                );
+                playerIn.addChatMessage( new ChatComponentTranslation(
+                        "info_in_chat.binding_to",
+                                (new SuperStone.BindingPos(stack.getTagCompound())).toString()));
                 return true;
             } else {
                 return false;
