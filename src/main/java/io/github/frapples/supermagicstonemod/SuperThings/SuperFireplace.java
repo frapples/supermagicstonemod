@@ -45,24 +45,12 @@ public class SuperFireplace extends Block{
     {
         if (!worldIn.isRemote) {
             InventoryPlayer inventory = playerIn.inventory;
-            Item item = inventory.getCurrentItem().getItem();
-            if (Item.getIdFromItem(item) == Item.getIdFromItem(SuperStone.self())) {
-                ItemStack stack = ((SuperStone) item).newItemStack(
-                        worldIn, pos.getX(), pos.getY(), pos.getZ());
-                inventory.mainInventory[inventory.currentItem] = stack;
+            ItemStack stack = inventory.mainInventory[inventory.currentItem];
 
-                playerIn.addChatMessage( new ChatComponentTranslation(
-                        "info_in_chat.binding_to",
-                                (new SuperStone.BindingPos(stack.getTagCompound())).toString()));
-
-
-                stack.setStackDisplayName(
-                        Utils.getItemTranslateName(stack.getItem()) +  (new SuperStone.BindingPos(stack.getTagCompound())).toString());
-
-                return true;
-            } else {
-                return false;
-            }
+            SuperStone.bindTo(stack, worldIn, pos);
+            playerIn.addChatMessage( new ChatComponentTranslation(
+                    "info_in_chat.binding_to", SuperStone.getBinded(stack).toString()));
+            return true;
 
         } else {
             return false;

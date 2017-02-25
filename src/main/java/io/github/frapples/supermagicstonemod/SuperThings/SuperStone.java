@@ -34,12 +34,15 @@ public class SuperStone extends Item {
         int y;
         int z;
 
+        public BindingPos(World world, BlockPos pos) throws Utils.NotFoundException {
+            this(Utils.getIdByWorld(world), pos.getX(), pos.getY(), pos.getZ());
+        }
+
         public BindingPos(NBTTagCompound data) {
             world = data.getInteger("world");
             x = data.getInteger("X");
             y = data.getInteger("Y");
             z = data.getInteger("Z");
-
         }
 
         public BindingPos(int idByWorld, int x, int y, int z) {
@@ -49,14 +52,11 @@ public class SuperStone extends Item {
             this.z = z;
         }
 
-        public NBTTagCompound toNBT() {
-            NBTTagCompound data = new NBTTagCompound();
+        public void writeToNBT(NBTTagCompound data) {
             data.setInteger("world", world);
             data.setInteger("X",  x);
             data.setInteger("Y",  y);
             data.setInteger("Z",  z);
-            return data;
-
         }
 
         @Override
@@ -87,7 +87,6 @@ public class SuperStone extends Item {
             return false;
         } else {
             if (!stack.hasTagCompound()) {
-                // playerIn.addChatMessage(new ChatComponentText("Not bind"));
                 playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.not_binding"));
                 return false;
             }
@@ -118,22 +117,35 @@ public class SuperStone extends Item {
         }
     }
 
-
-    public ItemStack newItemStack(World world, int x, int y, int z)
-    {
-        NBTTagCompound data;
-        try {
-            data = (new BindingPos(Utils.getIdByWorld(world), x, y, z)).toNBT();
-
-        } catch (Utils.NotFoundException e) {
-            data = null;
-        }
-
-        ItemStack s = new ItemStack(SuperStone.self(), 1);
-        s.setTagCompound(data);
-
-        return s;
+    @Override
+    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
     }
+
+
+
+    static public void bindTo(ItemStack stack, World worldIn, BlockPos pos) {
+        Item item = stack.getItem();
+        if (Item.getIdFromItem(item) == Item.getIdFromItem(SuperStone.self())) {
+
+            if (!stack.hasTagCompound()) {
+                stack.setTagCompound(new NBTTagCompound());
+            }
+
+            try {
+                BindingPos bindingPos = new BindingPos(worldIn, pos);
+                bindingPos.writeToNBT(stack.getTagCompound());
+                stack.setStackDisplayName(
+                        Utils.getItemTranslateName(stack.getItem()) + bindingPos.toString());
+            } catch (Utils.NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static public BindingPos getBinded(ItemStack stack) {
+        return new SuperStone.BindingPos(stack.getTagCompound());
+    }
+
 }
 
 
