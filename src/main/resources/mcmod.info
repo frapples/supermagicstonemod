@@ -1,0 +1,16 @@
+[
+{
+  "modid": "supermagicstonemod",
+  "name": "SuperMagicStoneMod",
+  "description": "None.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Frapples"],
+  "credits": "None.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
