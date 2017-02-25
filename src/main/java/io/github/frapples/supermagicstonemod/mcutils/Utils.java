@@ -1,5 +1,7 @@
 package io.github.frapples.supermagicstonemod.mcutils;
 
+import net.minecraft.item.Item;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
@@ -29,6 +31,13 @@ public class Utils {
 
     public static WorldServer getWorldById(int id) {
         return DimensionManager.getWorld(id);
+    }
+
+    public static String getItemTranslateName(Item item) {
+
+        // item.xxx.name
+        String s = item.getUnlocalizedName() + ".name";
+        return s == null ? "" : StatCollector.translateToLocal(s);
     }
 }
 

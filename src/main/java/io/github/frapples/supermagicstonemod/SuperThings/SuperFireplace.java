@@ -1,5 +1,6 @@
 package io.github.frapples.supermagicstonemod.SuperThings;
 
+import io.github.frapples.supermagicstonemod.mcutils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -9,7 +10,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -54,6 +54,11 @@ public class SuperFireplace extends Block{
                 playerIn.addChatMessage( new ChatComponentTranslation(
                         "info_in_chat.binding_to",
                                 (new SuperStone.BindingPos(stack.getTagCompound())).toString()));
+
+
+                stack.setStackDisplayName(
+                        Utils.getItemTranslateName(stack.getItem()) +  (new SuperStone.BindingPos(stack.getTagCompound())).toString());
+
                 return true;
             } else {
                 return false;
