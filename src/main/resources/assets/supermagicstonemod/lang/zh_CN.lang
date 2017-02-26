@@ -10,3 +10,5 @@ info_in_chat.not_same_world=您现在处于另外一个世界中，无法传送
 
 info_in_chat.canel_by_move=在使用魔法炉石施法的过程中，您移动了位置，施法失败！
 info_in_chat.remain_time=魔法炉石传送中。。。 剩余: %1$s秒
+
+process_bar.info_str=正在施法...

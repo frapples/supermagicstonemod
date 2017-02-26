@@ -9,3 +9,4 @@ info_in_chat.super_fireplace_not_exists=Super fireplace is not exists in where S
 info_in_chat.not_same_world=The place Binded is not in same world.
 info_in_chat.canel_by_move=Canel beacuse you moved.
 info_in_chat.remain_time=Remain time: %1$ss
+process_bar.info_str=Doing...

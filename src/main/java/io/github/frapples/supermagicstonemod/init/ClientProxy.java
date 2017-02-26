@@ -1,9 +1,7 @@
-package io.github.frapples.supermagicstonemod.client;
+package io.github.frapples.supermagicstonemod.init;
 
 import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
-import io.github.frapples.supermagicstonemod.common.CommonProxy;
-import io.github.frapples.supermagicstonemod.mcutils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -13,10 +11,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
-import javax.rmi.CORBA.Util;
-
 /**
- * Created by minecraft on 17-2-22.
+ * Created by minecraft on 17-2-26.
  */
 public class ClientProxy extends CommonProxy{
     @Override

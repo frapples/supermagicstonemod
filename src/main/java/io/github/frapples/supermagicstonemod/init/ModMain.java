@@ -1,10 +1,9 @@
-package io.github.frapples.supermagicstonemod;
+package io.github.frapples.supermagicstonemod.init;
 
 /**
  * Created by minecraft on 17-2-22.
  */
 
-import io.github.frapples.supermagicstonemod.common.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -23,8 +22,8 @@ public class ModMain
     @Instance(ModMain.MODID)
     public static ModMain instance;
 
-    @SidedProxy(clientSide = "io.github.frapples.supermagicstonemod.client.ClientProxy",
-            serverSide = "io.github.frapples.supermagicstonemod.common.CommonProxy")
+    @SidedProxy(clientSide = "io.github.frapples.supermagicstonemod.init.ClientProxy",
+            serverSide = "io.github.frapples.supermagicstonemod.init.CommonProxy")
     public static CommonProxy proxy;
 
     @EventHandler
@@ -45,3 +44,5 @@ public class ModMain
         proxy.postInit(event);
     }
 }
+
+

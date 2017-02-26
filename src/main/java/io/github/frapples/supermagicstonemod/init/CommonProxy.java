@@ -1,4 +1,4 @@
-package io.github.frapples.supermagicstonemod.common;
+package io.github.frapples.supermagicstonemod.init;
 
 import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
@@ -6,10 +6,12 @@ import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
- * Created by minecraft on 17-2-22.
+ * Created by minecraft on 17-2-26.
  */
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event)
@@ -21,6 +23,8 @@ public class CommonProxy {
         GameRegistry.registerBlock(block, SuperFireplace.ID);
         new ItemBlock(block).setRegistryName(block.getRegistryName());
 
+        registerGuiHandler(new GuiLoader());
+
     }
 
     public void init(FMLInitializationEvent event)
@@ -31,5 +35,11 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event)
     {
 
+    }
+
+
+    public void registerGuiHandler(IGuiHandler guiHandler)
+    {
+        NetworkRegistry.INSTANCE.registerGuiHandler(ModMain.instance, guiHandler);
     }
 }

@@ -1,5 +1,6 @@
 package io.github.frapples.supermagicstonemod.SuperThings;
 
+import io.github.frapples.supermagicstonemod.mcutils.ProcessBar;
 import io.github.frapples.supermagicstonemod.mcutils.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -103,33 +103,24 @@ public class SuperStone extends Item {
 
             try {
 
+                final long startMs = System.currentTimeMillis();
+                final long s = 5;
                 if (pos.world == Utils.getIdByWorld(worldIn)) {
 
-                    (new Thread () {
-                        public void run() {
-                            try {
-                                final double waitTime = 5;
-                                final double stepTime = 0.5;
 
-                                BlockPos oldPos = playerIn.getPosition();
-                                for (double i = 0; i < waitTime; i += stepTime) {
-                                    if (!oldPos.equals(playerIn.getPosition())) {
-                                        playerIn.addChatMessage(new ChatComponentTranslation(
-                                                "info_in_chat.canel_by_move"));
-                                        return;
-                                    }
+                    ProcessBar.open(playerIn, new ProcessBar.ProcessBarInfoInterface() {
 
-                                    playerIn.addChatMessage(new ChatComponentTranslation(
-                                            "info_in_chat.remain_time" , Double.toString(waitTime - i)));
-                                    Thread.sleep((long)(i * 1000));
-                                }
-
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            playerIn.setPositionAndUpdate(pos.x, pos.y + 1, pos.z);
+                        public double getPercent() {
+                            return (double)(System.currentTimeMillis() - startMs) / (double)(s * 1000);
                         }
-                    }).start();
+
+                        public void onProcessDone() {
+                            playerIn.closeScreen();
+                            playerIn.setPositionAndUpdate(pos.x, pos.y, pos.z);
+                        }
+                    });
+
+
 
                     return true;
                 } else {
@@ -149,6 +140,18 @@ public class SuperStone extends Item {
     }
 
 
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+    {
+        if (!worldIn.isRemote)
+        {
+            if (playerIn.isSneaking())
+            {
+            }
+        }
+
+        return itemStackIn;
+    }
 
     static public void bindTo(ItemStack stack, World worldIn, BlockPos pos) {
         Item item = stack.getItem();
