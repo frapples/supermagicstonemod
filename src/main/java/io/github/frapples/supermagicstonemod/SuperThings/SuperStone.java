@@ -151,6 +151,7 @@ public class SuperStone extends Item {
 
             final long startMs = System.currentTimeMillis();
             final long s = 5;
+            final BlockPos oldPos = playerIn.getPosition();
             if (pos.world == Utils.getIdByWorld(worldIn)) {
 
 
@@ -163,6 +164,13 @@ public class SuperStone extends Item {
                     public void onProcessDone() {
                         playerIn.closeScreen();
                         playerIn.setPositionAndUpdate(pos.x, pos.y, pos.z);
+                    }
+
+                    public void onUpdated() {
+                        if (!playerIn.getPosition().equals(oldPos)) {
+                            playerIn.closeScreen();
+                        }
+
                     }
                 });
 

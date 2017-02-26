@@ -20,6 +20,7 @@ public class ProcessBar {
     public interface ProcessBarInfoInterface {
         double getPercent();
         void onProcessDone();
+        void onUpdated();
     }
 
 
@@ -42,6 +43,8 @@ public class ProcessBar {
             }
 
             public void onProcessDone() {
+            }
+            public void onUpdated() {
             }
         };
 
@@ -67,6 +70,8 @@ public class ProcessBar {
 
                 this.info.onProcessDone();
             }
+
+            this.info.onUpdated();
 
             for (ICrafting i : this.crafters)
             {
