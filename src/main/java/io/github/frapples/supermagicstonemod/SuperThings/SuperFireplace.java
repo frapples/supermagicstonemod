@@ -42,17 +42,6 @@ public class SuperFireplace extends Block{
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
                                     EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (!worldIn.isRemote) {
-            InventoryPlayer inventory = playerIn.inventory;
-            ItemStack stack = inventory.mainInventory[inventory.currentItem];
-
-            SuperStone.bindTo(stack, worldIn, pos);
-            playerIn.addChatMessage( new ChatComponentTranslation(
-                    "info_in_chat.binding_to", SuperStone.getBinded(stack).toString()));
-            return true;
-
-        } else {
-            return false;
-        }
+        return false;
     }
 }

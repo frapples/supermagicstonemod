@@ -2,13 +2,16 @@ package io.github.frapples.supermagicstonemod.SuperThings;
 
 import io.github.frapples.supermagicstonemod.mcutils.ProcessBar;
 import io.github.frapples.supermagicstonemod.mcutils.Utils;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -82,58 +85,26 @@ public class SuperStone extends Item {
     public boolean onItemUse(ItemStack stack, final EntityPlayer playerIn, World worldIn,
                              BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        // 为 true 的时候，世界正在运行在逻辑客户端内。如果这个值为 false，世界正在运行在逻辑服务器上
         if (worldIn.isRemote) {
             return false;
-        } else {
-            if (!stack.hasTagCompound()) {
-                playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.not_binding"));
-                return false;
-            }
+        }
+        if (Block.getIdFromBlock(worldIn.getBlockState(blockPos).getBlock())
+                != Block.getIdFromBlock(SuperFireplace.self())) {
+            return false;
+        }
 
-            final BindingPos pos = new BindingPos(stack.getTagCompound());
+        if (playerIn.isSneaking()) {
+            SuperStone.bindTo(stack, worldIn, blockPos);
+
             playerIn.addChatMessage(new ChatComponentTranslation(
-                    "info_in_chat.display_binded", pos.toString()));
+                    "info_in_chat.binding_to", SuperStone.getBinded(stack).toString()));
 
-            if (pos.getBlockState().getBlock() != SuperFireplace.self()) {
-                playerIn.addChatMessage(new ChatComponentTranslation(
-                        "info_in_chat.super_fireplace_not_exists"));
-                return false;
-            }
-
-            try {
-
-                final long startMs = System.currentTimeMillis();
-                final long s = 5;
-                if (pos.world == Utils.getIdByWorld(worldIn)) {
-
-
-                    ProcessBar.open(playerIn, new ProcessBar.ProcessBarInfoInterface() {
-
-                        public double getPercent() {
-                            return (double)(System.currentTimeMillis() - startMs) / (double)(s * 1000);
-                        }
-
-                        public void onProcessDone() {
-                            playerIn.closeScreen();
-                            playerIn.setPositionAndUpdate(pos.x, pos.y, pos.z);
-                        }
-                    });
-
-
-
-                    return true;
-                } else {
-                    playerIn.addChatMessage(new ChatComponentTranslation(
-                            "info_in_chat.not_same_world"));
-                    return false;
-                }
-            } catch (Utils.NotFoundException e) {
-                e.printStackTrace();
-                return false;
-            }
+            return true;
+        } else {
+            return false;
         }
     }
+
 
     @Override
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
@@ -147,11 +118,68 @@ public class SuperStone extends Item {
         {
             if (playerIn.isSneaking())
             {
+            } else {
+                SuperStone.use(itemStackIn, worldIn, playerIn);
             }
         }
 
         return itemStackIn;
     }
+
+
+    public static Boolean use(ItemStack stack, World worldIn, final EntityPlayer playerIn)
+    {
+        // 为 true 的时候，世界正在运行在逻辑客户端内。如果这个值为 false，世界正在运行在逻辑服务器上
+        if (worldIn.isRemote) {
+            return false;
+        }
+
+        if (!stack.hasTagCompound()) {
+            playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.not_binding"));
+            return false;
+        }
+
+        final BindingPos pos = new BindingPos(stack.getTagCompound());
+
+        if (pos.getBlockState().getBlock() != SuperFireplace.self()) {
+            playerIn.addChatMessage(new ChatComponentTranslation(
+                    "info_in_chat.super_fireplace_not_exists"));
+            return false;
+        }
+
+        try {
+
+            final long startMs = System.currentTimeMillis();
+            final long s = 5;
+            if (pos.world == Utils.getIdByWorld(worldIn)) {
+
+
+                ProcessBar.open(playerIn, new ProcessBar.ProcessBarInfoInterface() {
+
+                    public double getPercent() {
+                        return (double)(System.currentTimeMillis() - startMs) / (double)(s * 1000);
+                    }
+
+                    public void onProcessDone() {
+                        playerIn.closeScreen();
+                        playerIn.setPositionAndUpdate(pos.x, pos.y, pos.z);
+                    }
+                });
+
+
+
+                return true;
+            } else {
+                playerIn.addChatMessage(new ChatComponentTranslation(
+                        "info_in_chat.not_same_world"));
+                return false;
+            }
+        } catch (Utils.NotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     static public void bindTo(ItemStack stack, World worldIn, BlockPos pos) {
         Item item = stack.getItem();
