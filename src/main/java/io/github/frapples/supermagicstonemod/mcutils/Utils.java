@@ -1,6 +1,9 @@
 package io.github.frapples.supermagicstonemod.mcutils;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -38,6 +41,16 @@ public class Utils {
         // item.xxx.name
         String s = item.getUnlocalizedName() + ".name";
         return s == null ? "" : StatCollector.translateToLocal(s);
+    }
+
+    public static BlockPos nearAirPosition(World world, BlockPos pos) {
+        for (int i = 0; i < 10; i++) {
+            BlockPos newPos = new BlockPos(pos.getX(), pos.getY() + i, pos.getZ());
+            if (Block.isEqualTo(world.getBlockState(newPos).getBlock(), Blocks.air)) {
+                return newPos;
+            }
+        }
+        return pos;
     }
 }
 

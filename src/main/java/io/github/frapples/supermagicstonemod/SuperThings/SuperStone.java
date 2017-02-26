@@ -1,17 +1,16 @@
 package io.github.frapples.supermagicstonemod.SuperThings;
 
+import io.github.frapples.supermagicstonemod.mcutils.MutilBlock;
 import io.github.frapples.supermagicstonemod.mcutils.ProcessBar;
 import io.github.frapples.supermagicstonemod.mcutils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -67,6 +66,10 @@ public class SuperStone extends Item {
             return String.format("[%d:(%d, %d, %d)]", world, x, y, z);
         }
 
+        public BlockPos getPosition() {
+            return new BlockPos(x, y, z);
+        }
+
         public IBlockState getBlockState() {
             return Utils.getWorldById(world).getBlockState(new BlockPos(x, y, z));
         }
@@ -88,13 +91,27 @@ public class SuperStone extends Item {
         if (worldIn.isRemote) {
             return false;
         }
-        if (Block.getIdFromBlock(worldIn.getBlockState(blockPos).getBlock())
-                != Block.getIdFromBlock(SuperFireplace.self())) {
+
+
+        BlockPos bindingPos;
+        MutilBlock mutilFrieplace = MutilBlock.fireplace();
+       if (mutilFrieplace.isExists(worldIn, blockPos)) {
+           try {
+               bindingPos = mutilFrieplace.locateCenterBlock(worldIn, blockPos);
+           } catch (MutilBlock.BlockNotFound blockNotFound) {
+               blockNotFound.printStackTrace();
+               return false;
+           }
+
+       } else if (Block.getIdFromBlock(worldIn.getBlockState(blockPos).getBlock())
+                == Block.getIdFromBlock(SuperFireplace.self())) {
+           bindingPos = blockPos;
+        } else {
             return false;
-        }
+       }
 
         if (playerIn.isSneaking()) {
-            SuperStone.bindTo(stack, worldIn, blockPos);
+            SuperStone.bindTo(stack, worldIn, bindingPos);
 
             playerIn.addChatMessage(new ChatComponentTranslation(
                     "info_in_chat.binding_to", SuperStone.getBinded(stack).toString()));
@@ -127,7 +144,7 @@ public class SuperStone extends Item {
     }
 
 
-    public static Boolean use(ItemStack stack, World worldIn, final EntityPlayer playerIn)
+    public static Boolean use(ItemStack stack, final World worldIn, final EntityPlayer playerIn)
     {
         // 为 true 的时候，世界正在运行在逻辑客户端内。如果这个值为 false，世界正在运行在逻辑服务器上
         if (worldIn.isRemote) {
@@ -141,7 +158,8 @@ public class SuperStone extends Item {
 
         final BindingPos pos = new BindingPos(stack.getTagCompound());
 
-        if (pos.getBlockState().getBlock() != SuperFireplace.self()) {
+        if ((pos.getBlockState().getBlock() != SuperFireplace.self()) &&
+        (!MutilBlock.fireplace().isExists(worldIn, new BlockPos(pos.x, pos.y, pos.z)))) {
             playerIn.addChatMessage(new ChatComponentTranslation(
                     "info_in_chat.super_fireplace_not_exists"));
             return false;
@@ -163,7 +181,8 @@ public class SuperStone extends Item {
 
                     public void onProcessDone() {
                         playerIn.closeScreen();
-                        playerIn.setPositionAndUpdate(pos.x, pos.y, pos.z);
+                        BlockPos movePos = Utils.nearAirPosition(worldIn, pos.getPosition());
+                        playerIn.setPositionAndUpdate(movePos.getX(), movePos.getY(), movePos.getZ());
                     }
 
                     public void onUpdated() {
