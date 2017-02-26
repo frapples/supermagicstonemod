@@ -7,3 +7,5 @@ info_in_chat.display_binded=Binded to %1$s
 info_in_chat.binding_to=Binding to %1$s
 info_in_chat.super_fireplace_not_exists=Super fireplace is not exists in where Super stone bind to.
 info_in_chat.not_same_world=The place Binded is not in same world.
+info_in_chat.canel_by_move=Canel beacuse you moved.
+info_in_chat.remain_time=Remain time: %1$ss

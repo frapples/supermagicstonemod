@@ -79,7 +79,7 @@ public class SuperStone extends Item {
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
+    public boolean onItemUse(ItemStack stack, final EntityPlayer playerIn, World worldIn,
                              BlockPos blockPos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         // 为 true 的时候，世界正在运行在逻辑客户端内。如果这个值为 false，世界正在运行在逻辑服务器上
@@ -91,7 +91,7 @@ public class SuperStone extends Item {
                 return false;
             }
 
-            BindingPos pos = new BindingPos(stack.getTagCompound());
+            final BindingPos pos = new BindingPos(stack.getTagCompound());
             playerIn.addChatMessage(new ChatComponentTranslation(
                     "info_in_chat.display_binded", pos.toString()));
 
@@ -102,8 +102,35 @@ public class SuperStone extends Item {
             }
 
             try {
+
                 if (pos.world == Utils.getIdByWorld(worldIn)) {
-                    playerIn.setPositionAndUpdate(pos.x, pos.y + 1, pos.z);
+
+                    (new Thread () {
+                        public void run() {
+                            try {
+                                final double waitTime = 5;
+                                final double stepTime = 0.5;
+
+                                BlockPos oldPos = playerIn.getPosition();
+                                for (double i = 0; i < waitTime; i += stepTime) {
+                                    if (!oldPos.equals(playerIn.getPosition())) {
+                                        playerIn.addChatMessage(new ChatComponentTranslation(
+                                                "info_in_chat.canel_by_move"));
+                                        return;
+                                    }
+
+                                    playerIn.addChatMessage(new ChatComponentTranslation(
+                                            "info_in_chat.remain_time" , Double.toString(waitTime - i)));
+                                    Thread.sleep((long)(i * 1000));
+                                }
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            playerIn.setPositionAndUpdate(pos.x, pos.y + 1, pos.z);
+                        }
+                    }).start();
+
                     return true;
                 } else {
                     playerIn.addChatMessage(new ChatComponentTranslation(
