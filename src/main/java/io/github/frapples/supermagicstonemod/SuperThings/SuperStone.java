@@ -201,6 +201,7 @@ public class SuperStone extends Item {
                     }
                 });
 
+                worldIn.playSoundAtEntity(playerIn, "supermagicstonemod:test", 1.0F, 1.0F);
 
 
                 return true;
