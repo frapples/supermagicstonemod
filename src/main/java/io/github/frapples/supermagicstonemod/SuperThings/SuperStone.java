@@ -1,19 +1,24 @@
 package io.github.frapples.supermagicstonemod.SuperThings;
 
+import com.sun.corba.se.spi.orbutil.fsm.StateImpl;
 import io.github.frapples.supermagicstonemod.mcutils.MutilBlock;
 import io.github.frapples.supermagicstonemod.mcutils.ProcessBar;
 import io.github.frapples.supermagicstonemod.mcutils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.stats.StatList;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+
+import javax.swing.text.Position;
 
 /**
  * Created by minecraft on 17-2-22.
@@ -183,6 +188,9 @@ public class SuperStone extends Item {
                         playerIn.closeScreen();
                         BlockPos movePos = Utils.nearAirPosition(worldIn, pos.getPosition());
                         playerIn.setPositionAndUpdate(movePos.getX(), movePos.getY(), movePos.getZ());
+                        playerIn.setFire(10);
+                        playerIn.addPotionEffect(
+                                new PotionEffect(Potion.fireResistance.id, 300));
                     }
 
                     public void onUpdated() {
