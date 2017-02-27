@@ -173,7 +173,7 @@ public class SuperStone extends Item {
         try {
 
             final long startMs = System.currentTimeMillis();
-            final long s = 5;
+            final double s = usingTime(playerIn, pos);
             final BlockPos oldPos = playerIn.getPosition();
             if (pos.world == Utils.getIdByWorld(worldIn)) {
 
@@ -213,6 +213,21 @@ public class SuperStone extends Item {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // 施法引导时间
+    static public double usingTime(EntityPlayer player, BindingPos pos) {
+        double distance = Math.sqrt(player.getPosition().distanceSq(pos.x, pos.y, pos.z));
+
+        final double factor = 0.1;
+        final double minTime = 2;
+        final double maxTime = 90;
+
+        double time = Math.pow(distance, 2.0 / 3.0) * factor;
+
+        time = time < minTime ? minTime : time;
+        time = time > maxTime ? maxTime : time;
+        return time;
     }
 
 
