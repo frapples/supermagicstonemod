@@ -1,11 +1,13 @@
 package io.github.frapples.supermagicstonemod.init;
 
+import io.github.frapples.supermagicstonemod.SuperThings.CommandSuperStone;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -35,6 +37,11 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event)
     {
 
+    }
+
+    public void serverStarting(FMLServerStartingEvent event)
+    {
+        event.registerServerCommand(new CommandSuperStone());
     }
 
 

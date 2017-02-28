@@ -113,6 +113,7 @@ public class SuperStone extends CanUsedItem {
     }
 
 
+    @Override
     public ItemStack onShiftRightClickAny(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
         if (worldIn.isRemote) {
             return itemStackIn;
@@ -125,9 +126,15 @@ public class SuperStone extends CanUsedItem {
             playerIn.addChatMessage(new ChatComponentTranslation(
                     "info_in_chat.not_binding"));
         }
+
+        playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.super_stone_tip"));
         return itemStackIn;
     }
 
+    @Override
+    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+        playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.super_stone_help"));
+    }
 
     public Boolean use(ItemStack stack, final World worldIn, final EntityPlayer playerIn)
     {
@@ -257,7 +264,10 @@ public class SuperStone extends CanUsedItem {
     }
 
     public void setLabel(ItemStack stack, String label) {
-        stack.setStackDisplayName(Utils.getItemTranslateName(stack.getItem()) + " - " + label);
+        stack.setStackDisplayName(String.format(
+                "%s(%s)",
+                Utils.getItemTranslateName(stack.getItem()),
+                label ));
     }
 
     static class NotBindingException extends Utils.NotFoundException {
