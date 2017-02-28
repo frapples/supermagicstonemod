@@ -193,7 +193,13 @@ public class SuperStone extends Item {
                                 new PotionEffect(Potion.fireResistance.id, 300));
                     }
 
+                    final private long soundTime = 2 * 1000;
+                    private long lastPlaySound = startMs - soundTime;
                     public void onUpdated() {
+                        if (System.currentTimeMillis() - lastPlaySound > soundTime) {
+                            worldIn.playSoundAtEntity(playerIn, "supermagicstonemod:test", 2.5F, 1.0F);
+                            lastPlaySound = System.currentTimeMillis();
+                        }
                         if (!playerIn.getPosition().equals(oldPos)) {
                             playerIn.closeScreen();
                         }
@@ -201,7 +207,6 @@ public class SuperStone extends Item {
                     }
                 });
 
-                worldIn.playSoundAtEntity(playerIn, "supermagicstonemod:test", 1.0F, 1.0F);
 
 
                 return true;
