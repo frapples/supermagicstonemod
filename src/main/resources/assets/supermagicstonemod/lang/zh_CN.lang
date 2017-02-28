@@ -1,5 +1,6 @@
 item.super_stone.name=魔法炉石
 tile.super_fireplace.name=魔法壁炉
+item.super_ashes.name=魔法炉灰
 
 
 info_in_chat.not_binding=此魔法炉石还没有绑定！
@@ -12,6 +13,7 @@ info_in_chat.canel_by_move=在使用魔法炉石施法的过程中，您移动�
 info_in_chat.remain_time=魔法炉石传送中。。。 剩余: %1$s秒
 info_in_chat.super_stone_help=shift右键查看绑定点，shift右键壁炉绑定，右键使用。
 info_in_chat.super_stone_tip=提示：命令/setSupterStoneName <name> 可以对手上的魔法炉石设置标签。
+info_in_chat.not_ashes=您的背包中没有魔法炉灰，无法传送。。。
 
 process_bar.info_str=正在施法...
 

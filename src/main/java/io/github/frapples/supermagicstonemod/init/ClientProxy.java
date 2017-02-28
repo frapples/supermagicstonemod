@@ -1,5 +1,6 @@
 package io.github.frapples.supermagicstonemod.init;
 
+import io.github.frapples.supermagicstonemod.SuperThings.SuperAshes;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
 import net.minecraft.block.Block;
@@ -22,6 +23,7 @@ public class ClientProxy extends CommonProxy{
 
         registerRender(SuperStone.self(), 0);
         registerRender(SuperFireplace.self(), 0);
+        registerRender(SuperAshes.self(), 0);
     }
 
 

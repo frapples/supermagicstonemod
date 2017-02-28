@@ -1,9 +1,13 @@
 package io.github.frapples.supermagicstonemod.init;
 
 import io.github.frapples.supermagicstonemod.SuperThings.CommandSuperStone;
+import io.github.frapples.supermagicstonemod.SuperThings.SuperAshes;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -20,6 +24,7 @@ public class CommonProxy {
     {
 
         GameRegistry.registerItem(SuperStone.self(), SuperStone.ID);
+        GameRegistry.registerItem(SuperAshes.self(), SuperAshes.ID);
 
         SuperFireplace block = SuperFireplace.self();
         GameRegistry.registerBlock(block, SuperFireplace.ID);
@@ -31,6 +36,21 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent event)
     {
+
+        GameRegistry.addShapedRecipe(new ItemStack(SuperAshes.self(), 12), new Object[] {
+                        " # ",
+                        "#*#",
+                        "###",
+                        '#', Items.ender_pearl, '*', Blocks.redstone_block
+                });
+
+
+        GameRegistry.addShapedRecipe(new ItemStack(SuperStone.self()), new Object[] {
+                "###",
+                "#*#",
+                "###",
+                '#', Items.ender_pearl, '*', Items.diamond
+        });
 
     }
 

@@ -1,5 +1,6 @@
 item.super_stone.name=Super Stone
 tile.super_fireplace.name=Super Fireplace
+item.super_ashes.name=Super Ashes
 
 
 info_in_chat.not_binding=Not Binding
@@ -11,7 +12,9 @@ info_in_chat.canel_by_move=Canel beacuse you moved.
 info_in_chat.remain_time=Remain time: %1$ss
 info_in_chat.super_stone_help=Try shift right click!
 info_in_chat.super_stone_tip=/setSupterStoneName can set Super Stone's label.
+info_in_chat.not_ashes=No ashes in your bag.
 process_bar.info_str=Doing...
 
 setSuperStoneNameCommand.success=Success!
 setSuperStoneNameCommand.NotSuperStoneInHand=The item in you hand is not Super stone.
+

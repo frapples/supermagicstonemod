@@ -157,6 +157,12 @@ public class SuperStone extends CanUsedItem {
             return false;
         }
 
+        if (!playerIn.inventory.hasItem(SuperAshes.self())) {
+            playerIn.addChatMessage(new ChatComponentTranslation(
+                    "info_in_chat.not_ashes"));
+            return false;
+        }
+
         try {
             if (Utils.getIdByWorld(pos.world) != Utils.getIdByWorld(worldIn)) {
                 playerIn.addChatMessage(new ChatComponentTranslation(
@@ -185,6 +191,8 @@ public class SuperStone extends CanUsedItem {
                 playerIn.setFire(10);
                 playerIn.addPotionEffect(
                         new PotionEffect(Potion.fireResistance.id, 300));
+
+                playerIn.inventory.consumeInventoryItem(SuperAshes.self());
             }
 
         }).setTime((long)usingTime(playerIn, pos) * 1000)
