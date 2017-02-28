@@ -1,7 +1,5 @@
-package io.github.frapples.supermagicstonemod.mcutils;
+package io.github.frapples.supermagicstonemod.mcutils.ProcessBar;
 
-import io.github.frapples.supermagicstonemod.init.ModMain;
-import io.github.frapples.supermagicstonemod.init.GuiLoader;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -9,28 +7,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Created by minecraft on 17-2-26.
+ * Created by minecraft on 17-2-28.
  */
-public class ProcessBar {
-    public interface ProcessBarInfoInterface {
+public class Implementation {
+    public static interface ProcessBarInfoInterface {
         double getPercent();
+
         void onProcessDone();
+
         void onUpdated();
-    }
-
-
-
-    static public void open(EntityPlayer player, ProcessBarInfoInterface info) {
-        BlockPos pos = player.getPosition();
-        ProcessBarImplementationContainer.info = info;
-        player.openGui(ModMain.instance,
-                GuiLoader.PROCESS_BAR_ID,
-                player.getEntityWorld(), pos.getX(), pos.getY(), pos.getZ());
     }
 
     static public class ProcessBarImplementationContainer extends Container
@@ -149,6 +138,8 @@ public class ProcessBar {
             //this.drawHorizontalLine(start + length, start + totalLength, 43, 0xFF000000);
         }
     }
+
+    /**
+     * Created by minecraft on 17-2-28.
+     */
 }
-
-

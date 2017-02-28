@@ -1,6 +1,6 @@
 package io.github.frapples.supermagicstonemod.init;
 
-import io.github.frapples.supermagicstonemod.mcutils.ProcessBar;
+import io.github.frapples.supermagicstonemod.mcutils.ProcessBar.Implementation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -20,7 +20,7 @@ public class GuiLoader implements IGuiHandler
         switch (ID)
         {
             case PROCESS_BAR_ID:
-                return new ProcessBar.ProcessBarImplementationContainer();
+                return new Implementation.ProcessBarImplementationContainer();
             default:
                 return null;
         }
@@ -31,8 +31,8 @@ public class GuiLoader implements IGuiHandler
         switch (ID)
         {
             case PROCESS_BAR_ID:
-                return new ProcessBar.ProcessBarImplementationGuiContainer(
-                        new ProcessBar.ProcessBarImplementationContainer());
+                return new Implementation.ProcessBarImplementationGuiContainer(
+                        new Implementation.ProcessBarImplementationContainer());
             default:
                 return null;
         }
