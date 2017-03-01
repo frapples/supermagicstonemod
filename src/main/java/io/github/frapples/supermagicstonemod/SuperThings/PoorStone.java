@@ -33,7 +33,7 @@ public class PoorStone extends SuperStone {
         this.setMaxStackSize(1);
         this.setUnlocalizedName(ID);
 
-        this.setMaxDamage(10);
+        this.setMaxDamage(5);
 
         this.setCreativeTab(CreativeTabs.tabTools);
     }
@@ -45,8 +45,7 @@ public class PoorStone extends SuperStone {
         player.setFire(10);
         player.addPotionEffect(
                 new PotionEffect(Potion.fireResistance.id, 300));
-        stack.damageItem(5, player);
-        player.addChatMessage(new ChatComponentText("" + stack.getItemDamage()));
+        stack.damageItem(1, player);
     }
 
 

@@ -130,7 +130,9 @@ public class SuperStone extends CanUsedItem {
 
     @Override
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
-        playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.super_stone_help"));
+        if (!worldIn.isRemote) {
+            playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.super_stone_help"));
+        }
     }
 
     public Boolean use(final ItemStack stack, final World worldIn, final EntityPlayer playerIn)
