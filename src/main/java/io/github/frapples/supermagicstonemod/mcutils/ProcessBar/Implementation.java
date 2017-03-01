@@ -45,7 +45,10 @@ public class Implementation {
         @Override
         public boolean canInteractWith(EntityPlayer playerIn)
         {
-            return new ItemStack(SuperStone.self()).isItemEqual(playerIn.getCurrentEquippedItem());
+            // 坑爹啊
+            //return new ItemStack(SuperStone.self()).isItemEqual(playerIn.getCurrentEquippedItem());
+
+            return true;
         }
 
         @Override
@@ -94,6 +97,11 @@ public class Implementation {
 
         @Override
         public void onContainerClosed(EntityPlayer playerIn) {
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             super.onContainerClosed(playerIn);
         }
     }

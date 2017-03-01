@@ -182,6 +182,7 @@ public class SuperStone extends CanUsedItem {
                 if (!playerIn.getPosition().equals(oldPos)) {
                     playerIn.closeScreen();
                 }
+                System.out.println("test");
             }
 
             public void onProcessDone() {
@@ -249,8 +250,7 @@ public class SuperStone extends CanUsedItem {
 
 
     public void setBindingPos(ItemStack stack, World worldIn, BlockPos pos) {
-        Item item = stack.getItem();
-        if (Item.getIdFromItem(item) == Item.getIdFromItem(SuperStone.self())) {
+        if (stack.getItem() instanceof  SuperStone) {
 
             if (!stack.hasTagCompound()) {
                 stack.setTagCompound(new NBTTagCompound());
