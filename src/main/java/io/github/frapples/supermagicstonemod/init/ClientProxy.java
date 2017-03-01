@@ -1,9 +1,6 @@
 package io.github.frapples.supermagicstonemod.init;
 
-import io.github.frapples.supermagicstonemod.SuperThings.PoorStone;
-import io.github.frapples.supermagicstonemod.SuperThings.SuperAshes;
-import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
-import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
+import io.github.frapples.supermagicstonemod.SuperThings.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -26,6 +23,7 @@ public class ClientProxy extends CommonProxy{
         registerRender(SuperFireplace.self(), 0);
         registerRender(SuperAshes.self(), 0);
         registerRender(PoorStone.self(), 0);
+        registerRender(ImperativeStone.self(), 0);
     }
 
 

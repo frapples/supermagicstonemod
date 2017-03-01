@@ -23,6 +23,7 @@ public class CommonProxy {
         GameRegistry.registerItem(SuperStone.self(), SuperStone.ID);
         GameRegistry.registerItem(SuperAshes.self(), SuperAshes.ID);
         GameRegistry.registerItem(PoorStone.self(), PoorStone.ID);
+        GameRegistry.registerItem(ImperativeStone.self(), ImperativeStone.ID);
 
         SuperFireplace block = SuperFireplace.self();
         GameRegistry.registerBlock(block, SuperFireplace.ID);
