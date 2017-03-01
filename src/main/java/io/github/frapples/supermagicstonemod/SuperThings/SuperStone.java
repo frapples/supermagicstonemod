@@ -2,6 +2,7 @@ package io.github.frapples.supermagicstonemod.SuperThings;
 
 import io.github.frapples.supermagicstonemod.mcutils.CanUsedItem;
 import io.github.frapples.supermagicstonemod.mcutils.MutilBlock;
+import io.github.frapples.supermagicstonemod.mcutils.MutilBlockSingleStruct;
 import io.github.frapples.supermagicstonemod.mcutils.ProcessBar.TimeProcessBar;
 import io.github.frapples.supermagicstonemod.mcutils.Utils;
 import net.minecraft.block.Block;
@@ -48,8 +49,8 @@ public class SuperStone extends CanUsedItem {
         }
 
 
-        public void writeToNBT(NBTTagCompound data) throws Utils.NotFoundException {
-            data.setInteger("world", Utils.getIdByWorld(world));
+        public void writeToNBT(NBTTagCompound data) {
+            data.setInteger("world", world.provider.getDimensionId());
             data.setInteger("X",  pos.getX());
             data.setInteger("Y",  pos.getY());
             data.setInteger("Z",  pos.getZ());
@@ -194,16 +195,14 @@ public class SuperStone extends CanUsedItem {
             return pos;
         }
 
-        if (MutilBlock.fireplace().isExists(pos.world, pos.pos)) {
-            try {
-                return new BindingPos(
-                        pos.world,
-                        MutilBlock.fireplace().locateCenterBlock(pos.world, pos.pos));
-            } catch (MutilBlock.BlockNotFound blockNotFound) {
-                blockNotFound.printStackTrace();
-            }
+        try {
+            return new BindingPos(
+                    pos.world,
+                    MutilBlock.fireplace().locateCenterPosition(pos.world, pos.pos));
+        } catch (MutilBlock.NotExistsException e) {
+            throw new BindingBlockNotExistsException();
         }
-        throw new BindingBlockNotExistsException();
+
     }
 
     // 施法引导时间
@@ -260,15 +259,8 @@ public class SuperStone extends CanUsedItem {
                 stack.setTagCompound(new NBTTagCompound());
             }
 
-            try {
-                BindingPos bindingPos = new BindingPos(worldIn, pos);
-                bindingPos.writeToNBT(stack.getTagCompound());
-                if (!this.hasLabel(stack)) {
-                    this.setLabel(stack, bindingPos.toString());
-                }
-            } catch (Utils.NotFoundException e) {
-                e.printStackTrace();
-            }
+            BindingPos bindingPos = new BindingPos(worldIn, pos);
+            bindingPos.writeToNBT(stack.getTagCompound());
         }
     }
 
@@ -279,18 +271,8 @@ public class SuperStone extends CanUsedItem {
         return new SuperStone.BindingPos(stack.getTagCompound());
     }
 
-    public boolean hasLabel(ItemStack stack) {
-        return !stack.getDisplayName().equals(Utils.getItemTranslateName(stack.getItem()));
-    }
 
-    public void setLabel(ItemStack stack, String label) {
-        stack.setStackDisplayName(String.format(
-                "%s - %s",
-                Utils.getItemTranslateName(stack.getItem()),
-                label));
-    }
-
-    static class NotBindingException extends Utils.NotFoundException {
+    static class NotBindingException extends Exception {
 
     }
 

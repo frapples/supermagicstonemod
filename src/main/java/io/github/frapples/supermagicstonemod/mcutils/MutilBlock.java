@@ -3,11 +3,11 @@ package io.github.frapples.supermagicstonemod.mcutils;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-
 /**
- * Created by minecraft on 17-2-26.
+ * Created by minecraft on 17-3-1.
  */
 public class MutilBlock {
+    private MutilBlockSingleStruct[] structs;
     static public MutilBlock fireplace() {
         String[][][] s = {
                 {
@@ -28,78 +28,60 @@ public class MutilBlock {
                         {"minecraft:brick_stairs", "minecraft:brick_stairs", "minecraft:brick_stairs"}
                 }
         };
-        return new MutilBlock(s);
+
+        String [][][] s2 = {
+                {
+                        {"minecraft:stonebrick", "minecraft:stonebrick", "minecraft:stonebrick"},
+                        {"minecraft:stonebrick", "minecraft:netherrack", "minecraft:stonebrick"},
+                        {"minecraft:stonebrick", "minecraft:stonebrick", "minecraft:stonebrick"}
+                },
+                {
+                        {"minecraft:stonebrick", "minecraft:iron_bars", "minecraft:stonebrick"},
+                        {"minecraft:iron_bars", "minecraft:fire", "minecraft:iron_bars"},
+                        {"minecraft:stonebrick", "minecraft:iron_bars", "minecraft:stonebrick"}
+
+                },
+
+                {
+                        {"minecraft:stone_brick_stairs", "minecraft:stone_brick_stairs", "minecraft:stone_brick_stairs"},
+                        {"minecraft:stone_brick_stairs", "minecraft:iron_bars", "minecraft:stone_brick_stairs"},
+                        {"minecraft:stone_brick_stairs", "minecraft:stone_brick_stairs", "minecraft:stone_brick_stairs"}
+                }
+
+        };
+        return new MutilBlock(s, s2);
+    }
+
+    public MutilBlock(String[][][] ... structs) {
+        this.structs = new MutilBlockSingleStruct[structs.length];
+        for (int i = 0; i < structs.length; i++) {
+            this.structs[i] = new MutilBlockSingleStruct(structs[i]);
+        }
     }
 
 
-    private String[][][] struct;
 
-    public MutilBlock(String[][][] struct) {
-        this.struct = struct;
+    static public class NotExistsException extends Exception{
+
+    }
+    public BlockPos locateCenterPosition(World worldIn, BlockPos pos) throws NotExistsException {
+        for (MutilBlockSingleStruct struct : structs) {
+            try {
+                return struct.locateCenterPosition(worldIn, pos);
+            } catch (MutilBlockSingleStruct.NotExistsException e) {
+            }
+        }
+        throw new NotExistsException();
     }
 
-    public boolean isExists(World worldIn, BlockPos pos) {
+    public Boolean isExists(World worldIn, BlockPos pos) {
         try {
-            BlockPos center = locateCenterBlock(worldIn, pos);
-            BlockPos numMinPoint = new BlockPos(
-                    center.getX() - getOffsetX() / 2,
-                    center.getY() - getOffsetY() / 2,
-                    center.getZ() - getOffsetZ() / 2);
-
-
-            for (int x = 0; x < getOffsetX(); x++)
-                for (int y = 0; y < getOffsetY(); y++)
-                    for (int z = 0; z < getOffsetZ(); z++) {
-
-                        if (!getBlockName(x, y, z).equals(
-                                worldIn.getBlockState(numMinPoint.add(x, y, z)).getBlock().getRegistryName())) {
-                            return false;
-                        }
-
-                    }
-
+            locateCenterPosition(worldIn, pos);
             return true;
-
-        } catch (BlockNotFound blockNotFound) {
+        } catch (NotExistsException e) {
             return false;
         }
     }
 
 
-    public static class BlockNotFound extends Exception {
-
-    }
-    public BlockPos locateCenterBlock(World world, BlockPos pos) throws BlockNotFound {
-        for (int x = pos.getX() - getOffsetX() / 2; x <= pos.getX() + getOffsetX() / 2; x++)
-            for (int y = pos.getY() - getOffsetY() / 2; y <= pos.getY() + getOffsetY() / 2; y++)
-                for (int z = pos.getZ() - getOffsetZ() / 2; z <= pos.getZ() + getOffsetZ() / 2; z++) {
-
-                    if (CenterBlockName().equals(
-                            world.getBlockState(new BlockPos(x, y, z)).getBlock().getRegistryName())){
-                        return new BlockPos(x, y, z);
-                    }
-
-                }
-        throw new BlockNotFound();
-    }
-
-    public  String getBlockName(int x, int y, int z) {
-        // 竖 宽 长
-        return struct[y][z][x];
-    }
-    public String CenterBlockName() {
-        return getBlockName(getOffsetX() / 2, getOffsetY() / 2, getOffsetZ() / 2);
-    }
-
-    public int getOffsetX() {
-        return struct[0][0].length;
-    }
-
-    public int getOffsetY() {
-        return struct[0].length;
-    }
-
-    public int getOffsetZ() {
-        return struct.length;
-    }
 }

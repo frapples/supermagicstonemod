@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -64,4 +65,17 @@ public class CanUsedItem extends ItemBow {
     @Override
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
     }
+
+
+    public boolean hasLabel(ItemStack stack) {
+        return !stack.getDisplayName().equals(Utils.getItemTranslateName(stack.getItem()));
+    }
+
+    public void setLabel(ItemStack stack, String label) {
+        stack.setStackDisplayName(String.format(
+                "%s - %s",
+                Utils.getItemTranslateName(stack.getItem()),
+                label));
+    }
+
 }
