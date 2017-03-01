@@ -55,6 +55,13 @@ public class CommonProxy {
                 "###",
                 '#', Items.gold_nugget,  '*', Blocks.stone});
 
+
+        GameRegistry.addShapedRecipe(new ItemStack(ImperativeStone.self()), new Object[] {
+                "###",
+                "#*#",
+                "###",
+                '#', Items.ender_eye,  '*', Items.emerald});
+
     }
 
     public void postInit(FMLPostInitializationEvent event)

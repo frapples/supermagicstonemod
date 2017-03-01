@@ -32,7 +32,7 @@ public class ImperativeStone extends SuperStone{
         this.setMaxStackSize(1);
         this.setUnlocalizedName(ID);
 
-        this.setMaxDamage(100);
+        this.setMaxDamage(2);
 
         this.setCreativeTab(CreativeTabs.tabTools);
     }

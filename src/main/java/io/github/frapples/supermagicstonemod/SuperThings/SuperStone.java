@@ -57,15 +57,7 @@ public class SuperStone extends CanUsedItem {
 
         @Override
         public String toString() {
-            try {
-                return String.format("[%d:(%d, %d, %d)]", Utils.getIdByWorld(world),
-                        pos.getX(),
-                        pos.getY(),
-                        pos.getZ());
-            } catch (Utils.NotFoundException e) {
-                e.printStackTrace();
-                return "";
-            }
+            return String.format("(%s:%d,%d,%d)", world.provider.getDimensionName(), pos.getX(), pos.getY(), pos.getZ());
         }
     }
 
@@ -269,7 +261,11 @@ public class SuperStone extends CanUsedItem {
             }
 
             try {
-                (new BindingPos(worldIn, pos)).writeToNBT(stack.getTagCompound());
+                BindingPos bindingPos = new BindingPos(worldIn, pos);
+                bindingPos.writeToNBT(stack.getTagCompound());
+                if (!this.hasLabel(stack)) {
+                    this.setLabel(stack, bindingPos.toString());
+                }
             } catch (Utils.NotFoundException e) {
                 e.printStackTrace();
             }
@@ -283,11 +279,15 @@ public class SuperStone extends CanUsedItem {
         return new SuperStone.BindingPos(stack.getTagCompound());
     }
 
+    public boolean hasLabel(ItemStack stack) {
+        return !stack.getDisplayName().equals(Utils.getItemTranslateName(stack.getItem()));
+    }
+
     public void setLabel(ItemStack stack, String label) {
         stack.setStackDisplayName(String.format(
-                "%s(%s)",
+                "%s - %s",
                 Utils.getItemTranslateName(stack.getItem()),
-                label ));
+                label));
     }
 
     static class NotBindingException extends Utils.NotFoundException {
