@@ -1,12 +1,10 @@
 package io.github.frapples.supermagicstonemod.mcutils.ProcessBar;
 
-import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -14,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Created by minecraft on 17-2-28.
  */
 public class Implementation {
-    public static interface ProcessBarInfoInterface {
+    public interface ProcessBarInfoInterface {
         double getPercent();
 
         void onProcessDone();
@@ -60,10 +58,10 @@ public class Implementation {
 
             if (this.percent >= 1) {
 
-                this.info.onProcessDone();
+                info.onProcessDone();
             }
 
-            this.info.onUpdated();
+            info.onUpdated();
 
             for (ICrafting i : this.crafters)
             {
@@ -139,8 +137,8 @@ public class Implementation {
             int length = (int) (this.container.getPercent()  * totalLength);
 
 
-            this.drawRect(start, 40,  start + length, 43, 0xFFFF9912);
-            this.drawRect(start + length, 40, start + totalLength, 43, 0xFF000000);
+            drawRect(start, 40,  start + length, 43, 0xFFFF9912);
+            drawRect(start + length, 40, start + totalLength, 43, 0xFF000000);
 
             //this.drawHorizontalLine(start, start + length, 43, 0xFFFF9912);
             //this.drawHorizontalLine(start + length, start + totalLength, 43, 0xFF000000);

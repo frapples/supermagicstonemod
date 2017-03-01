@@ -2,14 +2,11 @@ package io.github.frapples.supermagicstonemod.SuperThings;
 
 import io.github.frapples.supermagicstonemod.mcutils.CanUsedItem;
 import io.github.frapples.supermagicstonemod.mcutils.MutilBlock;
-import io.github.frapples.supermagicstonemod.mcutils.ProcessBar.Implementation;
-import io.github.frapples.supermagicstonemod.mcutils.ProcessBar.ProcessBar;
 import io.github.frapples.supermagicstonemod.mcutils.ProcessBar.TimeProcessBar;
 import io.github.frapples.supermagicstonemod.mcutils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -136,7 +133,7 @@ public class SuperStone extends CanUsedItem {
         playerIn.addChatMessage(new ChatComponentTranslation("info_in_chat.super_stone_help"));
     }
 
-    public Boolean use(ItemStack stack, final World worldIn, final EntityPlayer playerIn)
+    public Boolean use(final ItemStack stack, final World worldIn, final EntityPlayer playerIn)
     {
         // 为 true 的时候，世界正在运行在逻辑客户端内。如果这个值为 false，世界正在运行在逻辑服务器上
         if (worldIn.isRemote) {
@@ -157,26 +154,15 @@ public class SuperStone extends CanUsedItem {
             return false;
         }
 
-        if (!playerIn.inventory.hasItem(SuperAshes.self())) {
-            playerIn.addChatMessage(new ChatComponentTranslation(
-                    "info_in_chat.not_ashes"));
+        if (!beforeUsedHook(playerIn, pos)) {
             return false;
         }
 
-        try {
-            if (Utils.getIdByWorld(pos.world) != Utils.getIdByWorld(worldIn)) {
-                playerIn.addChatMessage(new ChatComponentTranslation(
-                        "info_in_chat.not_same_world"));
-                return false;
-            }
-        } catch (Utils.NotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
 
         final BlockPos oldPos = playerIn.getPosition();
         final BindingPos pos_ = pos;
 
+        final SuperStone self = this;
         (new TimeProcessBar(playerIn) {
             public void onUpdated() {
                 if (!playerIn.getPosition().equals(oldPos)) {
@@ -187,13 +173,7 @@ public class SuperStone extends CanUsedItem {
 
             public void onProcessDone() {
                 playerIn.closeScreen();
-                BlockPos movePos = Utils.nearAirPosition(worldIn, pos_.pos);
-                playerIn.setPositionAndUpdate(movePos.getX(), movePos.getY(), movePos.getZ());
-                playerIn.setFire(10);
-                playerIn.addPotionEffect(
-                        new PotionEffect(Potion.fireResistance.id, 300));
-
-                playerIn.inventory.consumeInventoryItem(SuperAshes.self());
+                self.onDone(playerIn, pos_, stack);
             }
 
         }).setTime((long)usingTime(playerIn, pos) * 1000)
@@ -233,7 +213,7 @@ public class SuperStone extends CanUsedItem {
     }
 
     // 施法引导时间
-    static public double usingTime(EntityPlayer player, BindingPos pos) {
+    protected double usingTime(EntityPlayer player, BindingPos pos) {
         double distance = Math.sqrt(
                 player.getPosition().distanceSq(pos.pos.getX(), pos.pos.getY(), pos.pos.getZ()));
 
@@ -246,6 +226,36 @@ public class SuperStone extends CanUsedItem {
         time = time < minTime ? minTime : time;
         time = time > maxTime ? maxTime : time;
         return time;
+    }
+
+    public void onDone(EntityPlayer player, BindingPos pos, ItemStack stack) {
+        BlockPos movePos = Utils.nearAirPosition(pos.world, pos.pos);
+        player.setPositionAndUpdate(movePos.getX(), movePos.getY(), movePos.getZ());
+        player.setFire(10);
+        player.addPotionEffect(
+                new PotionEffect(Potion.fireResistance.id, 300));
+
+        player.inventory.consumeInventoryItem(SuperAshes.self());
+    }
+
+    protected Boolean beforeUsedHook(EntityPlayer playerIn, BindingPos pos) {
+        if (!playerIn.inventory.hasItem(SuperAshes.self())) {
+            playerIn.addChatMessage(new ChatComponentTranslation(
+                    "info_in_chat.not_ashes"));
+            return false;
+        }
+
+        try {
+            if (Utils.getIdByWorld(pos.world) != Utils.getIdByWorld(playerIn.getEntityWorld())) {
+                playerIn.addChatMessage(new ChatComponentTranslation(
+                        "info_in_chat.not_same_world"));
+                return false;
+            }
+        } catch (Utils.NotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 

@@ -1,8 +1,8 @@
 package io.github.frapples.supermagicstonemod.mcutils;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -11,7 +11,9 @@ import net.minecraft.world.World;
 /**
  * Created by minecraft on 17-2-28.
  */
-public class CanUsedItem extends Item {
+
+/* 为了让损伤度生效，只能先继承ItemBow */
+public class CanUsedItem extends ItemBow {
     public CanUsedItem() {
         super();
     }

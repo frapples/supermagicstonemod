@@ -35,20 +35,16 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event)
     {
 
-        GameRegistry.addShapedRecipe(new ItemStack(SuperAshes.self(), 12), new Object[] {
-                        " # ",
-                        "#*#",
-                        "###",
-                        '#', Items.ender_pearl, '*', Blocks.redstone_block
-                });
-
-
-        GameRegistry.addShapedRecipe(new ItemStack(SuperStone.self()), new Object[] {
-                "###",
+        GameRegistry.addShapedRecipe(new ItemStack(SuperAshes.self(), 12), " # ",
                 "#*#",
                 "###",
-                '#', Items.ender_pearl, '*', Items.diamond
-        });
+                '#', Items.ender_pearl, '*', Blocks.redstone_block);
+
+
+        GameRegistry.addShapedRecipe(new ItemStack(SuperStone.self()), "###",
+                "#*#",
+                "###",
+                '#', Items.ender_pearl, '*', Items.diamond);
 
     }
 
