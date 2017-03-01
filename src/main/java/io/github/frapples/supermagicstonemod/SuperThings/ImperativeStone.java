@@ -7,7 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+
+import javax.script.ScriptEngine;
 
 /**
  * Created by minecraft on 17-3-1.
@@ -32,7 +35,7 @@ public class ImperativeStone extends SuperStone{
         this.setMaxStackSize(1);
         this.setUnlocalizedName(ID);
 
-        this.setMaxDamage(2);
+        this.setMaxDamage(Config.imperativeStoneMaxDamage);
 
         this.setCreativeTab(CreativeTabs.tabTools);
     }

@@ -33,7 +33,7 @@ public class PoorStone extends SuperStone {
         this.setMaxStackSize(1);
         this.setUnlocalizedName(ID);
 
-        this.setMaxDamage(5);
+        this.setMaxDamage(Config.poorStoneMaxDamage);
 
         this.setCreativeTab(CreativeTabs.tabTools);
     }
@@ -67,7 +67,7 @@ public class PoorStone extends SuperStone {
 
     @Override
     public double usingTime(EntityPlayer player, BindingPos pos) {
-        return super.usingTime(player, pos) * 5;
+        return super.usingTime(player, pos) * Config.poorStoneWaitingTimeMultiplierToSuperStone;
     }
 }
 

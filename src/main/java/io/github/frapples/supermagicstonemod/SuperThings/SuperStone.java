@@ -210,11 +210,11 @@ public class SuperStone extends CanUsedItem {
         double distance = Math.sqrt(
                 player.getPosition().distanceSq(pos.pos.getX(), pos.pos.getY(), pos.pos.getZ()));
 
-        final double factor = 0.1;
+        //final double factor = 0.1;
         final double minTime = 2;
         final double maxTime = 90;
 
-        double time = Math.pow(distance, 2.0 / 3.0) * factor;
+        double time = Math.pow(distance, 2.0 / 3.0) * Config.superStoneWaitingTimeMultiplier;
 
         time = time < minTime ? minTime : time;
         time = time > maxTime ? maxTime : time;

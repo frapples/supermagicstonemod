@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event)
     {
+        Config.init(event);
 
         GameRegistry.registerItem(SuperStone.self(), SuperStone.ID);
         GameRegistry.registerItem(SuperAshes.self(), SuperAshes.ID);
@@ -30,7 +31,6 @@ public class CommonProxy {
         new ItemBlock(block).setRegistryName(block.getRegistryName());
 
         registerGuiHandler(new GuiLoader());
-
     }
 
     public void init(FMLInitializationEvent event)
