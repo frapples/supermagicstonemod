@@ -1,5 +1,6 @@
 package io.github.frapples.supermagicstonemod.init;
 
+import io.github.frapples.supermagicstonemod.SuperThings.PoorStone;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperAshes;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
 import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
@@ -24,6 +25,7 @@ public class ClientProxy extends CommonProxy{
         registerRender(SuperStone.self(), 0);
         registerRender(SuperFireplace.self(), 0);
         registerRender(SuperAshes.self(), 0);
+        registerRender(PoorStone.self(), 0);
     }
 
 

@@ -1,9 +1,6 @@
 package io.github.frapples.supermagicstonemod.init;
 
-import io.github.frapples.supermagicstonemod.SuperThings.CommandSuperStone;
-import io.github.frapples.supermagicstonemod.SuperThings.SuperAshes;
-import io.github.frapples.supermagicstonemod.SuperThings.SuperFireplace;
-import io.github.frapples.supermagicstonemod.SuperThings.SuperStone;
+import io.github.frapples.supermagicstonemod.SuperThings.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
@@ -25,6 +22,7 @@ public class CommonProxy {
 
         GameRegistry.registerItem(SuperStone.self(), SuperStone.ID);
         GameRegistry.registerItem(SuperAshes.self(), SuperAshes.ID);
+        GameRegistry.registerItem(PoorStone.self(), PoorStone.ID);
 
         SuperFireplace block = SuperFireplace.self();
         GameRegistry.registerBlock(block, SuperFireplace.ID);
