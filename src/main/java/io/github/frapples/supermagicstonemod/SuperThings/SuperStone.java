@@ -163,7 +163,6 @@ public class SuperStone extends CanUsedItem {
                 if (!playerIn.getPosition().equals(oldPos)) {
                     playerIn.closeScreen();
                 }
-                System.out.println("test");
             }
 
             public void onProcessDone() {
